@@ -1,0 +1,20 @@
+{
+  "name": "netflix-otp-worker",
+  "version": "1.0.0",
+  "description": "Background IMAP Email Listener & OTP Parser for Netflix Resellers",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "imapflow": "^1.0.171",
+    "mailparser": "^3.7.2",
+    "pg": "^8.23.0"
+  }
+}
