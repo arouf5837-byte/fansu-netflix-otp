@@ -439,8 +439,8 @@ export default function AdminDashboard() {
               type="password"
               value={adminPin}
               onChange={(e) => setAdminPin(e.target.value)}
-              placeholder="PIN (যেমন: 0549)"
-              className="input-saas text-center text-xl tracking-widest font-mono font-black py-3.5"
+              placeholder="••••"
+              className="input-saas text-center text-2xl tracking-[0.3em] font-mono font-black py-3.5 placeholder:tracking-normal placeholder:font-sans placeholder:text-slate-300"
               autoFocus
             />
             {authError && <p className="text-xs text-red-600 font-bold animate-fade-up">{authError}</p>}

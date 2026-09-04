@@ -197,8 +197,8 @@ export default function ClientPortal() {
   };
 
   return (
-    <div className="w-full flex justify-center py-12 sm:py-16 md:py-24 px-4 sm:px-6">
-      <div className="w-full max-w-2xl sm:max-w-3xl mx-auto flex flex-col items-center text-center space-y-10 sm:space-y-12">
+    <div className="w-full flex-1 flex flex-col justify-between items-center px-4 sm:px-6 min-h-[calc(100vh-70px)]">
+      <div className="w-full max-w-2xl sm:max-w-3xl my-auto flex flex-col items-center text-center space-y-7 sm:space-y-9 py-8 sm:py-12">
         
         {/* ================= 1. HERO HEADER (ULTRA-SPACIOUS & ELEGANT) ================= */}
         <section className="space-y-4 sm:space-y-5 max-w-2xl animate-fade-up">
@@ -446,22 +446,22 @@ export default function ClientPortal() {
           </button>
         </section>
 
-        {/* ================= 5. FOOTER ================= */}
-        <footer className="text-xs sm:text-sm text-slate-500 font-medium pt-4 pb-10 flex flex-col items-center space-y-2">
-          <div className="flex items-center gap-2 select-none">
-            <div className="w-5 h-5 rounded-md bg-[#e50914] flex items-center justify-center text-white text-[9px] font-mono font-black">
-              LD
-            </div>
-            <p>
-              Powered by <strong className="text-slate-900 font-extrabold">Learnory Digital</strong>
-            </p>
-          </div>
-          <p className="text-slate-400 text-xs">
-            All Kind of Digital Subscriptions Provider • Secure Automated Self-Service
-          </p>
-        </footer>
-
       </div>
+
+      {/* ================= 5. FOOTER (AT THE VERY BOTTOM) ================= */}
+      <footer className="w-full text-xs sm:text-sm text-slate-500 font-medium py-6 flex flex-col items-center space-y-2 border-t border-slate-200/60 mt-auto shrink-0">
+        <div className="flex items-center gap-2 select-none">
+          <div className="w-5 h-5 rounded-md bg-[#e50914] flex items-center justify-center text-white text-[9px] font-mono font-black">
+            LD
+          </div>
+          <p>
+            Powered by <strong className="text-slate-900 font-extrabold">Learnory Digital</strong>
+          </p>
+        </div>
+        <p className="text-slate-400 text-xs">
+          All Kind of Digital Subscriptions Provider • Secure Automated Self-Service
+        </p>
+      </footer>
 
       {/* ================= 6. INSTRUCTION MENU POPUP / MODAL ================= */}
       {isGuideOpen && (

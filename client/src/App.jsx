@@ -35,7 +35,7 @@ export default function App() {
       />
 
       {/* Main Content View with Smooth Transitions */}
-      <main className="flex-1 relative z-10">
+      <main className="flex-1 flex flex-col relative z-10">
         {activeView === 'client' ? (
           <ClientPortal onOpenAdmin={() => setActiveView('admin')} />
         ) : (
