@@ -20,16 +20,22 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-[#e50914] selection:text-white" key={key}>
-      {/* Top Navigation Bar */}
+    <div className="relative min-h-screen flex flex-col bg-[#fafafa] text-slate-900 selection:bg-[#e50914] selection:text-white overflow-x-hidden font-sans" key={key}>
+      {/* Subtle Premium Ambient Background */}
+      <div className="bg-ambient-canvas" aria-hidden="true">
+        <div className="bg-ambient-glow" />
+        <div className="bg-ambient-glow-2" />
+      </div>
+
+      {/* Sticky Floating Navbar */}
       <Navbar
         activeView={activeView}
         setActiveView={setActiveView}
         onOpenSettings={() => setIsSettingsOpen(true)}
       />
 
-      {/* Main Content View */}
-      <main className="flex-1">
+      {/* Main Content View with Smooth Transitions */}
+      <main className="flex-1 relative z-10">
         {activeView === 'client' ? (
           <ClientPortal onOpenAdmin={() => setActiveView('admin')} />
         ) : (
@@ -37,7 +43,7 @@ export default function App() {
         )}
       </main>
 
-      {/* Database Settings Modal */}
+      {/* Database Settings Modal (Maintained for DB configuration if opened from Admin) */}
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}

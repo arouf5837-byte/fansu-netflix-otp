@@ -15,7 +15,8 @@ import {
   Mail,
   FileCode,
   X,
-  Filter
+  Filter,
+  ArrowRight
 } from 'lucide-react';
 import { isConfigured, getSupabaseClient } from '../supabaseClient';
 import { getMockData, saveMockData } from '../mockData';
@@ -395,7 +396,7 @@ export default function AdminDashboard() {
 
       if (data) {
         setAllOtps([data, ...allOtps]);
-        setTestOtpStatus(`✅ কোড ${randomCode} তৈরি হয়েছে!`);
+        setTestOtpStatus(`✅ টেস্ট ওটিপি ${randomCode} তৈরি হয়েছে!`);
       }
     } else {
       const mock = getMockData();
@@ -411,7 +412,7 @@ export default function AdminDashboard() {
       mock.otps.unshift(newOtp);
       saveMockData(mock);
       setAllOtps([newOtp, ...allOtps]);
-      setTestOtpStatus(`✅ কোড ${randomCode} তৈরি হয়েছে!`);
+      setTestOtpStatus(`✅ টেস্ট ওটিপি ${randomCode} তৈরি হয়েছে!`);
     }
     setTimeout(() => setTestOtpStatus(''), 3000);
   };
@@ -425,25 +426,27 @@ export default function AdminDashboard() {
   if (!isAuthenticated) {
     return (
       <div className="w-full flex justify-center py-20 px-4">
-        <div className="glass-card-elevated max-w-sm w-full p-8 text-center space-y-4">
-          <div className="w-12 h-12 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center mx-auto text-[#e50914]">
+        <div className="saas-card-elevated max-w-sm w-full p-8 text-center space-y-5 animate-fade-up">
+          <div className="w-12 h-12 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center mx-auto text-[#e50914] shadow-xs">
             <Lock className="w-6 h-6" />
           </div>
-          <div>
-            <h2 className="text-xl font-extrabold text-slate-900">Learnory Digital Admin</h2>
-            <p className="text-xs text-slate-500 mt-1 font-medium">প্রবেশ করতে ৪ ডিজিটের পিন লিখুন</p>
+          <div className="space-y-1">
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Admin Authentication</h2>
+            <p className="text-xs text-slate-500 font-medium">অ্যাডমিন প্যানেলে প্রবেশ করতে ৪ ডিজিটের পিন লিখুন</p>
           </div>
-          <form onSubmit={handleLogin} className="space-y-3">
+          <form onSubmit={handleLogin} className="space-y-4 pt-1">
             <input
               type="password"
               value={adminPin}
               onChange={(e) => setAdminPin(e.target.value)}
-              placeholder="PIN লিখুন..."
-              className="input-netflix text-center text-lg tracking-widest font-mono font-bold"
+              placeholder="PIN (যেমন: 0549)"
+              className="input-saas text-center text-xl tracking-widest font-mono font-black py-3.5"
               autoFocus
             />
-            {authError && <p className="text-xs text-red-600 font-semibold">{authError}</p>}
-            <button type="submit" className="btn-netflix w-full text-sm font-bold">প্রবেশ করুন</button>
+            {authError && <p className="text-xs text-red-600 font-bold animate-fade-up">{authError}</p>}
+            <button type="submit" className="btn-primary-netflix w-full py-3.5 text-sm font-extrabold shadow-md">
+              প্রবেশ করুন
+            </button>
           </form>
         </div>
       </div>
@@ -451,64 +454,68 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="w-full flex justify-center py-8 sm:py-12 px-4">
-      <div className="w-full max-w-4xl mx-auto space-y-6">
+    <div className="w-full flex justify-center py-8 sm:py-14 px-4 sm:px-6">
+      <div className="w-full max-w-4xl mx-auto space-y-7 animate-fade-up">
         
         {/* Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
-          <div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
+          <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5 text-[#e50914]" />
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900">
+              <div className="w-8 h-8 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-[#e50914]">
+                <Shield className="w-4 h-4" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                 Learnory Digital • Multi-Account Suite
               </h1>
             </div>
-            <p className="text-xs text-slate-600 font-medium mt-0.5">
-              বিভিন্ন Netflix Gmail অ্যাকাউন্টের ওটিপি ও গ্রাহকদের কি আলাদাভাবে ট্র্যাক করুন
+            <p className="text-xs sm:text-sm text-slate-600 font-medium">
+              বিভিন্ন Netflix Gmail অ্যাকাউন্টের ওটিপি ও গ্রাহকদের কি আলাদাভাবে পরিচালনা করুন
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={handleTestOtp}
-              className="btn-secondary text-xs py-2 px-3 bg-amber-50 border-amber-200 text-amber-800 font-bold"
+              className="btn-secondary-saas text-xs py-2 px-3.5 bg-amber-50 border-amber-200 text-amber-900 font-bold"
               title="Test OTP Injection"
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <Sparkles className="w-4 h-4 text-amber-600" />
               <span>Test OTP</span>
             </button>
             <button
               onClick={loadData}
               disabled={isLoading}
-              className="btn-secondary text-xs py-2 px-2.5"
+              className="btn-secondary-saas text-xs py-2 px-3"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-[#e50914]' : 'text-slate-600'}`} />
             </button>
           </div>
         </div>
 
         {testOtpStatus && (
-          <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2 animate-slide-down">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold flex items-center gap-3 animate-fade-up shadow-xs">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
             <span>{testOtpStatus}</span>
           </div>
         )}
 
         {/* SINGLE RECENT OTP WIDGET WITH GMAIL ACCOUNT FILTER */}
-        <div className="glass-card-elevated p-5 sm:p-6 border-l-4 border-l-[#e50914] space-y-4">
+        <div className="saas-card-elevated p-6 sm:p-7 border-l-4 border-l-[#e50914] space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <span className="badge badge-netflix text-[10px]">Recent OTP Monitor</span>
-              <span className="text-xs text-slate-600 font-medium">ফিল্টার করে যেকোনো Gmail-এর কোড দেখুন:</span>
+            <div className="flex items-center gap-2.5">
+              <span className="badge-shimmer text-[#e50914] font-extrabold text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider">
+                Recent OTP Monitor
+              </span>
+              <span className="text-xs sm:text-sm text-slate-600 font-semibold">ফিল্টার করে যেকোনো Gmail-এর কোড দেখুন:</span>
             </div>
 
             {/* Account Filter Dropdown */}
             <div className="flex items-center gap-2">
-              <Filter className="w-3.5 h-3.5 text-slate-500" />
+              <Filter className="w-4 h-4 text-slate-400" />
               <select
                 value={selectedAccountFilter}
                 onChange={(e) => setSelectedAccountFilter(e.target.value)}
-                className="input-netflix text-xs py-1.5 px-3 bg-slate-50 border-slate-300 font-mono font-bold"
+                className="input-saas text-xs py-2 px-3 bg-slate-50 border-slate-300 font-mono font-bold"
               >
                 <option value="all">সবগুলো Gmail (All Accounts)</option>
                 {accounts.map(acc => (
@@ -521,16 +528,16 @@ export default function AdminDashboard() {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
-            <div>
-              <div className="flex items-center gap-2 text-xs text-slate-600 font-medium">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-600 font-medium">
                 <span>অ্যাকাউন্ট: <strong className="text-slate-900 font-mono font-bold">{currentDisplayedOtp?.netflix_accounts?.email || accounts.find(a => a.id === currentDisplayedOtp?.account_id)?.email || 'N/A'}</strong></span>
                 {currentDisplayedOtp?.received_at && (
                   <span className="flex items-center gap-1 font-mono text-slate-500">
-                    • <Clock className="w-3 h-3" /> {new Date(currentDisplayedOtp.received_at).toLocaleTimeString()}
+                    • <Clock className="w-3.5 h-3.5" /> {new Date(currentDisplayedOtp.received_at).toLocaleTimeString()}
                   </span>
                 )}
               </div>
-              <div className="font-mono text-4xl sm:text-5xl font-black text-slate-900 mt-1.5 tracking-wider">
+              <div className="font-mono text-4xl sm:text-5xl font-black text-slate-950 tracking-wider">
                 {currentDisplayedOtp?.otp_code || 'কোনো ওটিপি নেই'}
               </div>
             </div>
@@ -540,10 +547,10 @@ export default function AdminDashboard() {
                 href={currentDisplayedOtp.action_url}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-secondary text-xs py-2 px-3 text-blue-700 bg-blue-50 border-blue-200 self-start sm:self-center flex items-center gap-1.5 font-bold"
+                className="btn-secondary-saas text-xs sm:text-sm py-2.5 px-4 text-blue-700 bg-blue-50 border-blue-200 self-start sm:self-center flex items-center gap-2 font-bold"
               >
                 <span>Household Link</span>
-                <ExternalLink className="w-3 h-3" />
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
           </div>
@@ -553,8 +560,8 @@ export default function AdminDashboard() {
         <div className="flex gap-2 border-b border-slate-200 pb-3">
           <button
             onClick={() => setActiveTab('clients')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all ${
-              activeTab === 'clients' ? 'bg-[#e50914] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${
+              activeTab === 'clients' ? 'bg-[#e50914] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
             <Key className="w-4 h-4" />
@@ -563,8 +570,8 @@ export default function AdminDashboard() {
 
           <button
             onClick={() => setActiveTab('accounts')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all ${
-              activeTab === 'accounts' ? 'bg-[#e50914] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${
+              activeTab === 'accounts' ? 'bg-[#e50914] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
             <Mail className="w-4 h-4" />
@@ -574,73 +581,74 @@ export default function AdminDashboard() {
 
         {/* ================= TAB 1: CLIENT ACCESS KEYS ================= */}
         {activeTab === 'clients' && (
-          <div className="glass-card p-5 sm:p-6 space-y-4 animate-slide-down">
-            <div className="flex items-center justify-between">
+          <div className="saas-card p-6 sm:p-7 space-y-5 animate-fade-up">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h3 className="text-base font-black text-slate-900">গ্রাহকদের তালিকা ও তাদের লিঙ্ক</h3>
-                <p className="text-xs text-slate-600 font-medium">প্রতিটি গ্রাহক শুধুমাত্র তার নির্দিষ্ট জিমেইলের ওটিপি দেখতে পাবে</p>
+                <h3 className="text-lg font-black text-slate-900">গ্রাহকদের তালিকা ও তাদের অ্যাক্সেস লিঙ্ক</h3>
+                <p className="text-xs sm:text-sm text-slate-600 font-medium">প্রতিটি গ্রাহক শুধুমাত্র তার নির্দিষ্ট জিমেইলের ওটিপি দেখতে পাবে</p>
               </div>
               <button
                 onClick={() => setShowAddClient(true)}
-                className="btn-netflix text-xs py-2 px-3.5 font-bold"
+                className="btn-primary-netflix text-xs sm:text-sm py-2.5 px-4 font-bold self-start sm:self-auto"
               >
                 <Plus className="w-4 h-4" />
                 <span>নতুন গ্রাহক যোগ করুন</span>
               </button>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto border border-slate-200 rounded-xl">
               <table className="w-full text-left text-xs sm:text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-600 font-bold text-xs uppercase tracking-wider bg-slate-50/70">
-                    <th className="py-2.5 px-3">গ্রাহকের নাম</th>
-                    <th className="py-2.5 px-3">Access Key</th>
-                    <th className="py-2.5 px-3">এসাইন করা Netflix Gmail</th>
-                    <th className="py-2.5 px-3">মেয়াদ</th>
-                    <th className="py-2.5 px-3 text-right">লিঙ্ক কপি</th>
-                    <th className="py-2.5 px-3 text-right">অ্যাকশন</th>
+                  <tr className="border-b border-slate-200 text-slate-700 font-extrabold text-xs uppercase tracking-wider bg-slate-50">
+                    <th className="py-3 px-4">গ্রাহকের নাম</th>
+                    <th className="py-3 px-4">Access Key</th>
+                    <th className="py-3 px-4">এসাইন করা Netflix Gmail</th>
+                    <th className="py-3 px-4">মেয়াদ</th>
+                    <th className="py-3 px-4 text-right">লিঙ্ক কপি</th>
+                    <th className="py-3 px-4 text-right">অ্যাকশন</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {clients.length === 0 ? (
                     <tr>
-                      <td colSpan="6" className="py-8 text-center text-slate-500 text-xs font-medium">
+                      <td colSpan="6" className="py-10 text-center text-slate-500 text-xs sm:text-sm font-medium">
                         কোনো গ্রাহক যোগ করা হয়নি। "নতুন গ্রাহক যোগ করুন" বাটনে চাপ দিন।
                       </td>
                     </tr>
                   ) : (
                     clients.map((cli) => (
-                      <tr key={cli.id} className="hover:bg-slate-50/80">
-                        <td className="py-3 px-3 font-bold text-slate-900">
+                      <tr key={cli.id} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="py-3.5 px-4 font-bold text-slate-900">
                           {cli.client_name}
                         </td>
-                        <td className="py-3 px-3 font-mono font-bold text-emerald-700">
-                          <span className="px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200">
+                        <td className="py-3.5 px-4 font-mono font-black text-emerald-700">
+                          <span className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200/80">
                             {cli.access_key}
                           </span>
                         </td>
-                        <td className="py-3 px-3 text-xs text-slate-700 font-mono font-medium">
+                        <td className="py-3.5 px-4 text-xs text-slate-700 font-mono font-medium">
                           {cli.netflix_accounts?.email || 'N/A'}
                         </td>
-                        <td className="py-3 px-3 text-xs text-slate-600 font-medium">
+                        <td className="py-3.5 px-4 text-xs text-slate-600 font-medium">
                           {cli.valid_until ? new Date(cli.valid_until).toLocaleDateString() : 'লাইফটাইম'}
                         </td>
-                        <td className="py-3 px-3 text-right">
+                        <td className="py-3.5 px-4 text-right">
                           <button
                             onClick={() => handleCopyWhatsAppLink(cli.access_key)}
-                            className="btn-secondary text-xs py-1 px-2.5 inline-flex items-center gap-1.5 text-emerald-700 bg-emerald-50 border-emerald-200 hover:bg-emerald-100 font-bold"
+                            className="btn-secondary-saas text-xs py-1.5 px-3 inline-flex items-center gap-1.5 text-emerald-800 bg-emerald-50 border-emerald-200 hover:bg-emerald-100 font-bold"
                             title="Copy WhatsApp Link"
                           >
                             {copiedKey === cli.access_key ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                             <span>{copiedKey === cli.access_key ? 'Copied' : 'WhatsApp Link'}</span>
                           </button>
                         </td>
-                        <td className="py-3 px-3 text-right">
+                        <td className="py-3.5 px-4 text-right">
                           <button
                             onClick={() => handleDeleteClient(cli.id)}
-                            className="btn-icon p-1 text-slate-400 hover:text-red-600"
+                            className="btn-icon p-1.5 text-slate-400 hover:text-red-600 transition-colors"
+                            title="Delete Client"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </td>
                       </tr>
@@ -654,15 +662,15 @@ export default function AdminDashboard() {
 
         {/* ================= TAB 2: MULTI-GMAIL NETFLIX ACCOUNTS ================= */}
         {activeTab === 'accounts' && (
-          <div className="glass-card p-5 sm:p-6 space-y-4 animate-slide-down">
-            <div className="flex items-center justify-between">
+          <div className="saas-card p-6 sm:p-7 space-y-5 animate-fade-up">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h3 className="text-base font-black text-slate-900">Netflix Master Accounts</h3>
-                <p className="text-xs text-slate-600 font-medium">যেকোনো জিমেইল যুক্ত করে তার জন্য ১-ক্লিকে রেডিমেড Google Script কপি করুন</p>
+                <h3 className="text-lg font-black text-slate-900">Netflix Master Accounts</h3>
+                <p className="text-xs sm:text-sm text-slate-600 font-medium">যেকোনো জিমেইল যুক্ত করে তার জন্য ১-ক্লিকে রেডিমেড Google Script কপি করুন</p>
               </div>
               <button
                 onClick={() => setShowAddAccount(true)}
-                className="btn-netflix text-xs py-2 px-3.5 font-bold"
+                className="btn-primary-netflix text-xs sm:text-sm py-2.5 px-4 font-bold self-start sm:self-auto"
               >
                 <Plus className="w-4 h-4" />
                 <span>নতুন Gmail যোগ করুন</span>
@@ -671,29 +679,29 @@ export default function AdminDashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {accounts.map((acc) => (
-                <div key={acc.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3 relative">
+                <div key={acc.id} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 relative hover:border-slate-300 transition-colors">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h4 className="font-bold text-slate-900 text-sm">{acc.account_name}</h4>
-                      <p className="text-xs font-mono text-slate-600 font-medium">{acc.email}</p>
+                      <h4 className="font-bold text-slate-900 text-sm sm:text-base">{acc.account_name}</h4>
+                      <p className="text-xs font-mono text-slate-600 font-medium mt-0.5">{acc.email}</p>
                     </div>
                     <button
                       onClick={() => handleDeleteAccount(acc.id)}
-                      className="btn-icon p-1 text-slate-400 hover:text-red-600"
+                      className="btn-icon p-1.5 text-slate-400 hover:text-red-600 transition-colors"
                       title="Delete Account"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
-                    <span className="text-[11px] text-slate-500 font-mono">Account ID: {acc.id.substring(0, 8)}...</span>
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between">
+                    <span className="text-xs text-slate-500 font-mono">ID: {acc.id.substring(0, 8)}...</span>
                     
                     <button
                       onClick={() => setScriptModalAccount(acc)}
-                      className="btn-netflix text-xs py-1.5 px-3 bg-red-600 hover:bg-red-700 flex items-center gap-1.5 font-bold"
+                      className="btn-primary-netflix text-xs py-2 px-3.5 flex items-center gap-1.5 font-bold shadow-xs"
                     >
-                      <FileCode className="w-3.5 h-3.5" />
+                      <FileCode className="w-4 h-4" />
                       <span>Google Script কোড</span>
                     </button>
                   </div>
@@ -706,52 +714,52 @@ export default function AdminDashboard() {
         {/* ================= MODAL: 1-CLICK GOOGLE SCRIPT ================= */}
         {scriptModalAccount && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="glass-card-elevated max-w-2xl w-full p-6 space-y-4 animate-slide-down relative max-h-[90vh] overflow-y-auto">
+            <div className="saas-card-elevated max-w-2xl w-full p-6 sm:p-8 space-y-5 animate-fade-up relative max-h-[90vh] overflow-y-auto">
               <button
                 onClick={() => setScriptModalAccount(null)}
-                className="absolute right-4 top-4 btn-icon p-1.5 text-slate-500 hover:text-slate-900"
+                className="absolute right-5 top-5 btn-icon p-2 text-slate-400 hover:text-slate-900"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-[#e50914]">
-                  <FileCode className="w-5 h-5" />
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-[#e50914]">
+                  <FileCode className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-black text-slate-900">
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900">
                     Google Apps Script ({scriptModalAccount.account_name})
                   </h3>
                   <p className="text-xs text-slate-600 font-mono font-medium">জিমেইল: {scriptModalAccount.email}</p>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs text-slate-700">
-                <p className="font-bold text-slate-900 flex items-center gap-1.5">
-                  <span className="w-4 h-4 rounded-full bg-[#e50914] text-white flex items-center justify-center text-[10px]">১</span>
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs sm:text-sm text-slate-700 font-medium">
+                <p className="font-bold text-slate-900 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-[#e50914] text-white flex items-center justify-center text-xs">১</span>
                   <strong>{scriptModalAccount.email}</strong> জিমেইলে <a href="https://script.google.com/home/start" target="_blank" rel="noreferrer" className="text-blue-600 underline">script.google.com</a>-এ যান।
                 </p>
-                <p className="font-bold text-slate-900 flex items-center gap-1.5">
-                  <span className="w-4 h-4 rounded-full bg-[#e50914] text-white flex items-center justify-center text-[10px]">২</span>
+                <p className="font-bold text-slate-900 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-[#e50914] text-white flex items-center justify-center text-xs">২</span>
                   নিচের কোডটি পেস্ট করে Save করুন।
                 </p>
-                <p className="font-bold text-slate-900 flex items-center gap-1.5">
-                  <span className="w-4 h-4 rounded-full bg-[#e50914] text-white flex items-center justify-center text-[10px]">৩</span>
+                <p className="font-bold text-slate-900 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-[#e50914] text-white flex items-center justify-center text-xs">৩</span>
                   বামপাশের <strong>Triggers (⏰)</strong> এ গিয়ে <strong>Every minute</strong> টাইমার চালু করুন।
                 </p>
               </div>
 
               <div className="relative">
-                <pre className="p-4 rounded-xl bg-slate-950 font-mono text-[11px] text-emerald-400 overflow-x-auto max-h-56 border border-slate-800">
+                <pre className="p-4 rounded-xl bg-slate-950 font-mono text-[11px] sm:text-xs text-emerald-400 overflow-x-auto max-h-60 border border-slate-800 leading-relaxed">
                   {generateGoogleScriptCode(scriptModalAccount)}
                 </pre>
               </div>
 
-              <div className="flex gap-2.5 pt-2">
+              <div className="flex gap-3 pt-2">
                 <button
                   onClick={() => handleCopyScript(scriptModalAccount)}
-                  className={`btn-netflix flex-1 text-xs py-2.5 font-bold ${
-                    copiedScript ? 'bg-emerald-600 hover:bg-emerald-700' : ''
+                  className={`btn-primary-netflix flex-1 text-sm py-3 font-extrabold ${
+                    copiedScript ? 'bg-gradient-to-r from-emerald-600 to-teal-600' : ''
                   }`}
                 >
                   {copiedScript ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -759,7 +767,7 @@ export default function AdminDashboard() {
                 </button>
                 <button
                   onClick={() => setScriptModalAccount(null)}
-                  className="btn-secondary text-xs py-2.5 px-4 font-bold"
+                  className="btn-secondary-saas text-sm py-3 px-5 font-bold"
                 >
                   বন্ধ করুন
                 </button>
@@ -771,9 +779,9 @@ export default function AdminDashboard() {
         {/* ================= MODAL: ADD CLIENT ================= */}
         {showAddClient && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="glass-card-elevated max-w-sm w-full p-6 space-y-4 animate-slide-down">
-              <h3 className="text-base font-black text-slate-900">নতুন গ্রাহকের Access Key তৈরি করুন</h3>
-              <form onSubmit={handleCreateClient} className="space-y-3">
+            <div className="saas-card-elevated max-w-sm w-full p-6 sm:p-7 space-y-4 animate-fade-up">
+              <h3 className="text-lg font-black text-slate-900">নতুন গ্রাহকের Access Key তৈরি করুন</h3>
+              <form onSubmit={handleCreateClient} className="space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">গ্রাহকের নাম</label>
                   <input
@@ -782,7 +790,7 @@ export default function AdminDashboard() {
                     placeholder="e.g. Tanvir Ahmed"
                     value={newClient.client_name}
                     onChange={(e) => setNewClient({ ...newClient, client_name: e.target.value })}
-                    className="input-netflix text-xs"
+                    className="input-saas text-xs py-2.5 px-3"
                   />
                 </div>
 
@@ -793,7 +801,7 @@ export default function AdminDashboard() {
                     required
                     value={newClient.access_key}
                     onChange={(e) => setNewClient({ ...newClient, access_key: e.target.value.toUpperCase() })}
-                    className="input-netflix font-mono uppercase font-bold text-xs"
+                    className="input-saas font-mono uppercase font-black text-xs py-2.5 px-3"
                   />
                 </div>
 
@@ -802,7 +810,7 @@ export default function AdminDashboard() {
                   <select
                     value={newClient.account_id}
                     onChange={(e) => setNewClient({ ...newClient, account_id: e.target.value })}
-                    className="input-netflix text-xs font-mono font-bold"
+                    className="input-saas text-xs font-mono font-bold py-2.5 px-3"
                   >
                     {accounts.map((acc) => (
                       <option key={acc.id} value={acc.id}>
@@ -817,7 +825,7 @@ export default function AdminDashboard() {
                   <select
                     value={newClient.durationDays}
                     onChange={(e) => setNewClient({ ...newClient, durationDays: e.target.value })}
-                    className="input-netflix text-xs font-bold"
+                    className="input-saas text-xs font-bold py-2.5 px-3"
                   >
                     <option value="7">৭ দিন</option>
                     <option value="30">১ মাস (30 Days)</option>
@@ -827,9 +835,9 @@ export default function AdminDashboard() {
                   </select>
                 </div>
 
-                <div className="flex gap-2 pt-2">
-                  <button type="submit" className="btn-netflix flex-1 text-xs py-2 font-bold">তৈরি করুন</button>
-                  <button type="button" onClick={() => setShowAddClient(false)} className="btn-secondary text-xs py-2 font-bold">বাতিল</button>
+                <div className="flex gap-2.5 pt-2">
+                  <button type="submit" className="btn-primary-netflix flex-1 text-xs py-2.5 font-bold">তৈরি করুন</button>
+                  <button type="button" onClick={() => setShowAddClient(false)} className="btn-secondary-saas text-xs py-2.5 px-4 font-bold">বাতিল</button>
                 </div>
               </form>
             </div>
@@ -839,9 +847,9 @@ export default function AdminDashboard() {
         {/* ================= MODAL: ADD NETFLIX ACCOUNT ================= */}
         {showAddAccount && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="glass-card-elevated max-w-sm w-full p-6 space-y-4 animate-slide-down">
-              <h3 className="text-base font-black text-slate-900">নতুন Netflix Gmail Account যোগ করুন</h3>
-              <form onSubmit={handleCreateAccount} className="space-y-3">
+            <div className="saas-card-elevated max-w-sm w-full p-6 sm:p-7 space-y-4 animate-fade-up">
+              <h3 className="text-lg font-black text-slate-900">নতুন Netflix Gmail Account যোগ করুন</h3>
+              <form onSubmit={handleCreateAccount} className="space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">অ্যাকাউন্টের নাম / লেবেল</label>
                   <input
@@ -850,7 +858,7 @@ export default function AdminDashboard() {
                     placeholder="e.g. Netflix 4K Master #2"
                     value={newAccount.account_name}
                     onChange={(e) => setNewAccount({ ...newAccount, account_name: e.target.value })}
-                    className="input-netflix text-xs"
+                    className="input-saas text-xs py-2.5 px-3"
                   />
                 </div>
 
@@ -862,7 +870,7 @@ export default function AdminDashboard() {
                     placeholder="yournewnetflix@gmail.com"
                     value={newAccount.email}
                     onChange={(e) => setNewAccount({ ...newAccount, email: e.target.value })}
-                    className="input-netflix text-xs font-mono font-bold"
+                    className="input-saas text-xs font-mono font-bold py-2.5 px-3"
                   />
                 </div>
 
@@ -870,9 +878,9 @@ export default function AdminDashboard() {
                   যোগ করার পর সাথে সাথেই এই অ্যাকাউন্টের জন্য তৈরি হওয়া Google Apps Script কোডটি পেয়ে যাবেন।
                 </p>
 
-                <div className="flex gap-2 pt-2">
-                  <button type="submit" className="btn-netflix flex-1 text-xs py-2 font-bold">যোগ করুন</button>
-                  <button type="button" onClick={() => setShowAddAccount(false)} className="btn-secondary text-xs py-2 font-bold">বাতিল</button>
+                <div className="flex gap-2.5 pt-2">
+                  <button type="submit" className="btn-primary-netflix flex-1 text-xs py-2.5 font-bold">যোগ করুন</button>
+                  <button type="button" onClick={() => setShowAddAccount(false)} className="btn-secondary-saas text-xs py-2.5 px-4 font-bold">বাতিল</button>
                 </div>
               </form>
             </div>

@@ -16,14 +16,14 @@ async function testGmail() {
     console.log('Connecting to Gmail IMAP with new password...');
     await client.connect();
     console.log('🎉 GMAIL IMAP CONNECTED SUCCESSFULLY!');
-    
+
     const lock = await client.getMailboxLock('INBOX');
     try {
       console.log(`✅ INBOX Total Messages: ${client.mailbox.exists}`);
     } finally {
       lock.release();
     }
-    
+
     await client.logout();
     console.log('✅ Logged out cleanly.');
   } catch (err) {
