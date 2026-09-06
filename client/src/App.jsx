@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import ClientPortal from './components/ClientPortal';
 import AdminDashboard from './components/AdminDashboard';
 import SettingsModal from './components/SettingsModal';
+import AnimatedBackground from './components/AnimatedBackground';
 
 export default function App() {
   const [activeView, setActiveView] = useState(() => {
@@ -19,12 +20,9 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-[#fafafa] text-slate-900 selection:bg-[#e50914] selection:text-white overflow-x-hidden font-sans" key={key}>
-      {/* Subtle Premium Ambient Background */}
-      <div className="bg-ambient-canvas" aria-hidden="true">
-        <div className="bg-ambient-glow" />
-        <div className="bg-ambient-glow-2" />
-      </div>
+    <div className="relative min-h-screen flex flex-col text-slate-900 selection:bg-[#e50914] selection:text-white overflow-x-hidden font-sans" key={key}>
+      {/* Ultra-Premium Dynamic Animated Background */}
+      <AnimatedBackground />
 
       {/* Sticky Floating Navbar */}
       <Navbar
