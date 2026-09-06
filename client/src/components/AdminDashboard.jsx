@@ -843,12 +843,12 @@ export default function AdminDashboard({ onOpenSettings }) {
                   {/* Preset quick buttons */}
                   <div className="grid grid-cols-3 gap-1.5 mb-2.5">
                     {[
-                      { label: '১ মাস (1 Mo)', val: '1', unit: 'months' },
-                      { label: '২ মাস (2 Mo)', val: '2', unit: 'months' },
-                      { label: '৩ মাস (3 Mo)', val: '3', unit: 'months' },
-                      { label: '৬ মাস (6 Mo)', val: '6', unit: 'months' },
-                      { label: '৯ মাস (9 Mo)', val: '9', unit: 'months' },
-                      { label: '১২ মাস (1 Yr)', val: '12', unit: 'months' }
+                      { label: '১ মাস', val: '1', unit: 'months' },
+                      { label: '২ মাস', val: '2', unit: 'months' },
+                      { label: '৩ মাস', val: '3', unit: 'months' },
+                      { label: '৬ মাস', val: '6', unit: 'months' },
+                      { label: '৯ মাস', val: '9', unit: 'months' },
+                      { label: '১২ মাস', val: '12', unit: 'months' }
                     ].map((preset) => {
                       const isSelected = newClient.durationUnit === preset.unit && newClient.durationValue === preset.val;
                       return (
