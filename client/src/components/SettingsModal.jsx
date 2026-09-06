@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Database, Key, Save, CheckCircle, AlertCircle, Sparkles, X, ExternalLink } from 'lucide-react';
-import { saveSupabaseConfig, clearSupabaseConfig, isConfigured, getSupabaseClient } from '../supabaseClient';
+import { Database, Save, CheckCircle, AlertCircle, Sparkles, X, ExternalLink } from 'lucide-react';
+import { saveSupabaseConfig, clearSupabaseConfig, getSupabaseClient } from '../supabaseClient';
 
 export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
   const [url, setUrl] = useState(() => localStorage.getItem('nf_supabase_url') || import.meta.env.VITE_SUPABASE_URL || '');
@@ -48,7 +48,7 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
     try {
       saveSupabaseConfig(url, key);
       const supabase = getSupabaseClient();
-      const { data, error } = await supabase.from('netflix_accounts').select('id').limit(1);
+      const { error } = await supabase.from('netflix_accounts').select('id').limit(1);
 
       if (error && !error.message.includes('permission')) {
         setTestResult({ success: false, message: 'কানেক্ট হয়েছে কিন্তু টেবিল পাওয়া যায়নি: ' + error.message + ' (দয়া করে SQL Schema রান করুন)' });

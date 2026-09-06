@@ -87,7 +87,9 @@ export const getMockData = () => {
   if (stored) {
     try {
       return JSON.parse(stored);
-    } catch (e) {}
+    } catch {
+      localStorage.removeItem('nf_mock_data');
+    }
   }
   return initialMockState;
 };

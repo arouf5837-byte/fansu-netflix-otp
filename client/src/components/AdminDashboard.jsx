@@ -16,12 +16,20 @@ import {
   FileCode,
   X,
   Filter,
-  ArrowRight
+  Settings
 } from 'lucide-react';
 import { isConfigured, getSupabaseClient } from '../supabaseClient';
 import { getMockData, saveMockData } from '../mockData';
 
-export default function AdminDashboard() {
+const createClientForm = () => ({
+  client_name: '',
+  client_phone: '',
+  access_key: `NF-${Math.floor(1000 + Math.random() * 9000)}`,
+  account_id: '',
+  durationDays: '30',
+});
+
+export default function AdminDashboard({ onOpenSettings }) {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return sessionStorage.getItem('nf_admin_auth') === 'true';
   });
@@ -49,13 +57,7 @@ export default function AdminDashboard() {
   const [testOtpStatus, setTestOtpStatus] = useState('');
 
   // Form states
-  const [newClient, setNewClient] = useState({
-    client_name: '',
-    client_phone: '',
-    access_key: `NF-${Math.floor(1000 + Math.random() * 9000)}`,
-    account_id: '',
-    durationDays: '30'
-  });
+  const [newClient, setNewClient] = useState(createClientForm);
 
   const [newAccount, setNewAccount] = useState({
     account_name: '',
@@ -143,13 +145,7 @@ export default function AdminDashboard() {
       if (!error && data) {
         setClients([data, ...clients]);
         setShowAddClient(false);
-        setNewClient({
-          client_name: '',
-          client_phone: '',
-          access_key: `NF-${Math.floor(1000 + Math.random() * 9000)}`,
-          account_id: accounts[0]?.id || '',
-          durationDays: '30'
-        });
+        setNewClient({ ...createClientForm(), account_id: accounts[0]?.id || '' });
       } else {
         alert('ত্রুটি: ' + (error?.message || 'Error'));
       }
@@ -464,16 +460,17 @@ export default function AdminDashboard() {
               <div className="w-8 h-8 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-[#e50914]">
                 <Shield className="w-4 h-4" />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-                Learnory Digital • Multi-Account Suite
-              </h1>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Operations</h1>
             </div>
             <p className="text-xs sm:text-sm text-slate-600 font-medium">
-              বিভিন্ন Netflix Gmail অ্যাকাউন্টের ওটিপি ও গ্রাহকদের কি আলাদাভাবে পরিচালনা করুন
+              গ্রাহক, Netflix account ও সর্বশেষ verification এক জায়গায় পরিচালনা করুন।
             </p>
           </div>
 
           <div className="flex items-center gap-2.5">
+            <button onClick={onOpenSettings} className="btn-secondary-saas text-xs py-2 px-3" title="Database settings" aria-label="Database settings">
+              <Settings className="w-4 h-4" />
+            </button>
             <button
               onClick={handleTestOtp}
               className="btn-secondary-saas text-xs py-2 px-3.5 bg-amber-50 border-amber-200 text-amber-900 font-bold"

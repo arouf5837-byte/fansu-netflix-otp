@@ -11,8 +11,6 @@ const getStoredConfig = () => {
   return { url, key };
 };
 
-let { url: currentUrl, key: currentKey } = getStoredConfig();
-
 export const isConfigured = () => {
   const { url, key } = getStoredConfig();
   return Boolean(url && key && !url.includes('placeholder') && url.startsWith('http'));

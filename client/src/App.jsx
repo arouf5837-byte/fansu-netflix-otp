@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import ClientPortal from './components/ClientPortal';
 import AdminDashboard from './components/AdminDashboard';
 import SettingsModal from './components/SettingsModal';
-import { isConfigured } from './supabaseClient';
 
 export default function App() {
   const [activeView, setActiveView] = useState(() => {
