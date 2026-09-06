@@ -177,7 +177,19 @@ export default function ClientPortal() {
           </div>
 
           {!latestOtp ? (
-            <div className="waiting-state"><Clock3 size={25} /><div><h2>এখনও নতুন code আসেনি</h2><p>Netflix-এ code বা verification request করুন। এখানে স্বয়ংক্রিয়ভাবে দেখা যাবে।</p></div></div>
+            <div className="waiting-state">
+              <div className="waiting-icon-box">
+                <Clock3 size={22} />
+              </div>
+              <div className="waiting-text-group">
+                <h2>এখনও নতুন কোড আসেনি</h2>
+                <p>Netflix অ্যাপ বা ডিভাইস থেকে কোড বা ভেরিফিকেশন রিকোয়েস্ট পাঠান।</p>
+                <div className="waiting-auto-notice">
+                  <span className="live-ping-dot" />
+                  <span>রিকোয়েস্ট পাঠানোর পর অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করুন। এখানে কোড স্বয়ংক্রিয়ভাবে প্রদর্শিত হবে (সাধারণত ৩০-৬০ সেকেন্ড সময় লাগতে পারে)। কোনো বাটন চাপার বা পেজ রিফ্রেশ করার প্রয়োজন নেই।</span>
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="result-content">
               {latestOtp.otp_code && (
