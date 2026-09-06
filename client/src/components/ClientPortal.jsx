@@ -211,7 +211,18 @@ export default function ClientPortal() {
                   </div>
                 </div>
               )}
-              {!hasFreshOtp && <p className="portal-message neutral-message">এই code বা linkটির সময় শেষ হয়েছে। Netflix-এ নতুন request পাঠান।</p>}
+              {!hasFreshOtp && (
+                <div className="expired-notice-card">
+                  <div className="expired-notice-header">
+                    <Clock3 size={15} />
+                    <span>পূর্ববর্তী কোডের মেয়াদ শেষ হয়েছে</span>
+                  </div>
+                  <div className="waiting-auto-notice">
+                    <span className="live-ping-dot" />
+                    <span>নতুন OTP রিকোয়েস্ট করে কিছুক্ষণ অপেক্ষা করুন। ১ মিনিটের মধ্যে নতুন কোড এখানে স্বয়ংক্রিয়ভাবে প্রদর্শিত হবে, পেজ রিফ্রেশ করার প্রয়োজন নেই।</span>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </section>
