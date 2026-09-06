@@ -26,8 +26,29 @@ const createClientForm = () => ({
   client_phone: '',
   access_key: `NF-${Math.floor(1000 + Math.random() * 9000)}`,
   account_id: '',
-  durationDays: '30',
+  durationValue: '1',
+  durationUnit: 'months',
 });
+
+const calculateExpiryDate = (val, unit) => {
+  const num = parseInt(val, 10);
+  if (isNaN(num) || num <= 0) return null;
+  const d = new Date();
+  if (unit === 'days') {
+    d.setDate(d.getDate() + num);
+  } else if (unit === 'months') {
+    d.setMonth(d.getMonth() + num);
+  }
+  return d;
+};
+
+const formatExpiryPreview = (val, unit) => {
+  const d = calculateExpiryDate(val, unit);
+  if (!d) return 'মেয়াদ নির্বাচন করুন';
+  const enFormat = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const bnFormat = d.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' });
+  return `${bnFormat} (${enFormat})`;
+};
 
 export default function AdminDashboard({ onOpenSettings }) {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -119,9 +140,8 @@ export default function AdminDashboard({ onOpenSettings }) {
     e.preventDefault();
     if (!newClient.client_name || !newClient.access_key) return;
 
-    const validUntil = newClient.durationDays === 'lifetime' 
-      ? null 
-      : new Date(Date.now() + parseInt(newClient.durationDays) * 86400 * 1000).toISOString();
+    const expiryDate = calculateExpiryDate(newClient.durationValue, newClient.durationUnit);
+    const validUntil = expiryDate ? expiryDate.toISOString() : new Date(Date.now() + 30 * 86400 * 1000).toISOString();
 
     const targetAccountId = newClient.account_id || accounts[0]?.id || null;
 
@@ -818,18 +838,74 @@ export default function AdminDashboard({ onOpenSettings }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">মেয়াদ (Duration)</label>
-                  <select
-                    value={newClient.durationDays}
-                    onChange={(e) => setNewClient({ ...newClient, durationDays: e.target.value })}
-                    className="input-saas text-xs font-bold py-2.5 px-3"
-                  >
-                    <option value="7">৭ দিন</option>
-                    <option value="30">১ মাস (30 Days)</option>
-                    <option value="90">৩ মাস</option>
-                    <option value="365">১ বছর</option>
-                    <option value="lifetime">লাইফটাইম</option>
-                  </select>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">মেয়াদ (Duration)</label>
+                  
+                  {/* Preset quick buttons */}
+                  <div className="grid grid-cols-3 gap-1.5 mb-2.5">
+                    {[
+                      { label: '১ মাস (1 Mo)', val: '1', unit: 'months' },
+                      { label: '২ মাস (2 Mo)', val: '2', unit: 'months' },
+                      { label: '৩ মাস (3 Mo)', val: '3', unit: 'months' },
+                      { label: '৬ মাস (6 Mo)', val: '6', unit: 'months' },
+                      { label: '৯ মাস (9 Mo)', val: '9', unit: 'months' },
+                      { label: '১২ মাস (1 Yr)', val: '12', unit: 'months' }
+                    ].map((preset) => {
+                      const isSelected = newClient.durationUnit === preset.unit && newClient.durationValue === preset.val;
+                      return (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          onClick={() => setNewClient({ ...newClient, durationValue: preset.val, durationUnit: preset.unit })}
+                          className={`text-[11px] font-extrabold py-1.5 px-2 rounded-lg border transition-all ${
+                            isSelected
+                              ? 'bg-[#e50914] text-white border-[#e50914] shadow-xs'
+                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
+                          }`}
+                        >
+                          {preset.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Custom Amount + Unit Selector */}
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-500 mb-1">কাস্টম সংখ্যা</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="3650"
+                        required
+                        value={newClient.durationValue}
+                        onChange={(e) => setNewClient({ ...newClient, durationValue: e.target.value })}
+                        placeholder="e.g. 1 or 30"
+                        className="input-saas text-xs font-bold py-2 px-3"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-500 mb-1">একক (Unit)</label>
+                      <select
+                        value={newClient.durationUnit}
+                        onChange={(e) => setNewClient({ ...newClient, durationUnit: e.target.value })}
+                        className="input-saas text-xs font-bold py-2 px-3"
+                      >
+                        <option value="months">মাস (Months)</option>
+                        <option value="days">দিন (Days)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Live Expiry Preview */}
+                  <div className="mt-2.5 flex items-center gap-2 p-2 rounded-lg bg-red-50/70 border border-red-100 text-slate-700 text-xs">
+                    <Clock className="w-3.5 h-3.5 text-[#e50914] shrink-0" />
+                    <div className="min-w-0">
+                      <span className="text-[10px] uppercase font-bold text-slate-500 block">মেয়াদ শেষ হবে:</span>
+                      <strong className="text-slate-900 text-[11px] block truncate">
+                        {formatExpiryPreview(newClient.durationValue, newClient.durationUnit)}
+                      </strong>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex gap-2.5 pt-2">

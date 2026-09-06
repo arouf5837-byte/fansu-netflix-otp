@@ -228,15 +228,63 @@ export default function ClientPortal() {
         </section>
       )}
 
-      <button type="button" className="help-trigger" onClick={() => setIsGuideOpen(true)}><HelpCircle size={18} /> ব্যবহারবিধি <span>TV ও mobile</span></button>
+      <button
+        type="button"
+        className="help-trigger-highlighted"
+        onClick={() => setIsGuideOpen(true)}
+        title="ব্যবহারবিধি দেখতে ক্লিক করুন"
+      >
+        <div className="help-trigger-icon-wrap">
+          <HelpCircle size={20} />
+        </div>
+        <div className="help-trigger-content">
+          <div className="help-trigger-title">
+            <span>ব্যবহারবিধি</span>
+            <span className="help-badge">Quick Guide</span>
+          </div>
+          <p className="help-trigger-sub">Smart TV ও Mobile-এ ব্যবহারের নিয়ম দেখতে এখানে চাপুন</p>
+        </div>
+        <div className="help-trigger-arrow">
+          <span>দেখুন</span>
+          <ArrowRight size={14} />
+        </div>
+      </button>
 
       {isGuideOpen && (
         <div className="modal-backdrop" onMouseDown={() => setIsGuideOpen(false)}>
           <section className="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guide-title" onMouseDown={(event) => event.stopPropagation()}>
-            <div className="modal-header"><div><span className="eyebrow"><HelpCircle size={14} /> সাহায্য</span><h2 id="guide-title">দ্রুত ব্যবহারবিধি</h2></div><button type="button" className="icon-button" onClick={() => setIsGuideOpen(false)} aria-label="বন্ধ করুন"><X size={19} /></button></div>
+            <div className="modal-header">
+              <div>
+                <span className="eyebrow"><HelpCircle size={14} /> Help</span>
+                <h2 id="guide-title">Quick Guide</h2>
+              </div>
+              <button type="button" className="icon-button" onClick={() => setIsGuideOpen(false)} aria-label="Close">
+                <X size={19} />
+              </button>
+            </div>
             <div className="guide-grid">
-              <article><Tv size={22} /><h3>Smart TV</h3><ol><li>“Watch Temporarily” বা “I’m Travelling” নির্বাচন করুন।</li><li>Netflix থেকে link আসা পর্যন্ত অপেক্ষা করুন।</li><li>উপরের TV verification link খুলুন।</li></ol></article>
-              <article><Smartphone size={22} /><h3>Mobile বা PC</h3><ol><li>Netflix-এ “Send Code” চাপুন।</li><li>উপরে code দেখা গেলে কপি করুন।</li><li>Netflix-এ codeটি বসান।</li></ol></article>
+              <article>
+                <div className="guide-card-top">
+                  <div className="guide-icon-pill"><Tv size={20} /></div>
+                  <h3>Smart TV</h3>
+                </div>
+                <ol>
+                  <li><strong>Update Netflix Household</strong> এ ক্লিক করে মেইল সেন্ড করবেন।</li>
+                  <li>এরপর Netflix থেকে মেইল আসা পর্যন্ত অপেক্ষা করুন।</li>
+                  <li>নতুন মেইল স্বয়ংক্রিয় ভাবে আসবে, আসলে মেইল খুলে নিজে নিজেই এপ্রুভাল নিয়ে নিন।</li>
+                </ol>
+              </article>
+              <article>
+                <div className="guide-card-top">
+                  <div className="guide-icon-pill"><Smartphone size={20} /></div>
+                  <h3>Mobile বা PC</h3>
+                </div>
+                <ol>
+                  <li><strong>Watch Temporarily</strong> তে ক্লিক করে ওটিপি সেন্ড করবেন।</li>
+                  <li>এরপরে নেটফ্লিক্স থেকে ওটিপি আসা পর্যন্ত অপেক্ষা করুন।</li>
+                  <li>ওটিপি পাওয়ার পরে Netflix এ কোড টি বসান।</li>
+                </ol>
+              </article>
             </div>
             <p className="guide-note">নতুন request আসার পর সাধারণত অল্প সময় লাগে। বারবার refresh দেওয়ার প্রয়োজন নেই।</p>
           </section>
